@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Module } from 'src/bootstrap';
+import { GlobalModule } from './global/global.module';
 
 @Module({
-  imports: [],
+  imports: [GlobalModule],
   controllers: [],
   providers: [],
 })
