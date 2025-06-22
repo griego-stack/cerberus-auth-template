@@ -7,6 +7,7 @@ import { ErrorResponseNormalizerFilter } from './filters/error-response-normaliz
 import { EmailService } from './services/mail.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { MailerProvider } from './providers/mailer.provider';
+import { databaseProviders } from './providers/database.provider';
 
 @Global()
 @Module({
@@ -20,7 +21,13 @@ import { MailerProvider } from './providers/mailer.provider';
     AppConfigService,
     EmailService,
     ErrorResponseNormalizerFilter,
+    ...databaseProviders,
   ],
-  exports: [AppConfigService, EmailService, ErrorResponseNormalizerFilter],
+  exports: [
+    AppConfigService,
+    EmailService,
+    ErrorResponseNormalizerFilter,
+    ...databaseProviders,
+  ],
 })
 export class GlobalModule {}

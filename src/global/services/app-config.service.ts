@@ -60,4 +60,24 @@ export class AppConfigService {
   get emailHostPassword(): string {
     return this.config.get<string>('EMAIL_HOST_PASSWORD') || '';
   }
+
+  // Database Configuration
+
+  get mainDatabase(): {
+    type: 'mysql';
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    database: string;
+  } {
+    return {
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      database: this.config.get<string>('MAIN_DATABASE_NAME') || 'cerbeus',
+      username: this.config.get<string>('MAIN_DATABASE_USER') || 'root',
+      password: this.config.get<string>('MAIN_DATABASE_PASSWORD') || 'password',
+    };
+  }
 }
