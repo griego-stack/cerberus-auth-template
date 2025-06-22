@@ -7,6 +7,10 @@ export class AppConfigService {
 
   //   App Configuration
 
+  get serviceName(): string {
+    return 'Cerbeus Auth Template';
+  }
+
   get globalPrefix(): string {
     return 'api';
   }
@@ -19,6 +23,10 @@ export class AppConfigService {
     return '1d';
   }
 
+  get confirmationTokenAlive(): { time: number; text: string } {
+    return { time: 24 * 60 * 60 * 1000, text: '24 hours' };
+  }
+
   // Secrets
 
   get jwt_secret_key(): string {
@@ -28,6 +36,28 @@ export class AppConfigService {
   // Client Configuration
 
   get clients_url(): string[] {
-    return [this.config.get<string>('CLIENT_URL') || 'http://localhost:3000'];
+    return [this.config.get<string>('CLIENT_1_URL') || 'http://localhost:3000'];
+  }
+
+  // Email Configuration
+
+  get emailHost(): string {
+    return this.config.get<string>('EMAIL_HOST') || '';
+  }
+
+  get emailPort(): number {
+    return this.config.get<number>('EMAIL_PORT') || 465;
+  }
+
+  get emailSecure(): boolean {
+    return this.config.get<boolean>('EMAIL_SECURE') || true;
+  }
+
+  get emailHostUser(): string {
+    return this.config.get<string>('EMAIL_HOST_USER') || '';
+  }
+
+  get emailHostPassword(): string {
+    return this.config.get<string>('EMAIL_HOST_PASSWORD') || '';
   }
 }

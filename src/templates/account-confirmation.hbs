@@ -1,0 +1,29 @@
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <title>Confirm your account</title>
+  </head>
+  <body
+    style='font-family: Arial, sans-serif; background-color: #f2f2f2; padding: 20px;'
+  >
+    <div
+      style='max-width: 600px; margin: auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);'
+    >
+      <h2 style='color: #333;'>Welcome to {{serviceName}}</h2>
+      <p>Hi <strong>{{userName}}</strong>,</p>
+      <p>Thanks for signing up. Please confirm your email address to activate
+        your account:</p>
+      <p style='text-align: center; margin: 30px 0;'>
+        <a
+          href='{{confirmationUrl}}'
+          style='background-color: #007BFF; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px;'
+        >
+          Confirm Account
+        </a>
+      </p>
+      <p>This link will expire in {{expirationTime}}.</p>
+      <p>If you didn’t create this account, you can ignore this message.</p>
+      <p>— The {{serviceName}} Team</p>
+    </div>
+  </body>
+</html>
