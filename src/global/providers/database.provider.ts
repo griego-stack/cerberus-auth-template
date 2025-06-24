@@ -14,9 +14,7 @@ export const databaseProviders = [
         username: databaseConfig.username,
         password: databaseConfig.password,
         database: databaseConfig.database,
-        entities: [
-          __dirname + '/../**/infrastructure/persistence/entities/*.entity.ts',
-        ],
+        entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
         synchronize: true,
       });
 

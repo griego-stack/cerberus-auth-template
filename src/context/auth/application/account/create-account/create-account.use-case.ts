@@ -1,6 +1,10 @@
 import { nanoid } from 'nanoid';
 import * as argon2 from 'argon2';
-import { Injectable, InternalServerErrorException } from 'src/bootstrap';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from 'src/bootstrap';
 import {
   UserConfirmationTokenEntity,
   UserConfirmationTokenRepository,
@@ -9,10 +13,10 @@ import {
   UserProfileRepository,
   UserRepository,
 } from 'src/context/auth/domain';
-import { CreateUserAccountDTO } from './create-account.dto';
 import { UserAlreadyExistsException } from 'src/context/auth/domain/exceptions/user-already-exists.exception';
 import { AppConfigService } from 'src/global/services/app-config.service';
 import { EmailService } from 'src/global/services/mail.service';
+import { CreateUserAccountDTO } from './create-account.dto';
 
 @Injectable()
 export class CreateUserAccountUseCase {
@@ -25,6 +29,9 @@ export class CreateUserAccountUseCase {
   ) {}
 
   async execute(data: CreateUserAccountDTO) {
+    if (!data.metadata.redirectURL)
+      throw new BadRequestException('Redirect URL is required.');
+
     const existingUser = await this.user.findByEmail(data.email);
 
     if (existingUser) {
@@ -42,8 +49,8 @@ export class CreateUserAccountUseCase {
         username: data.username,
         email: data.email,
         password: await this.hashPassword(data.password),
-        providerId: 0, // EMAIL
-        roleId: 0, // USER
+        providerId: 1, // EMAIL
+        roleId: 1, // USER
       });
 
       const newUserCreated = await this.user.create(newUser);
@@ -63,23 +70,30 @@ export class CreateUserAccountUseCase {
       });
 
       await this.confirmationToken.create(newConfirmationToken);
-    } catch {
+    } catch (error) {
+      console.log(error);
+
       throw new InternalServerErrorException(
         'An unexpected error occurred while creating the user.',
       );
     }
 
-    await this.mailer.sendEmail({
-      email: data.email,
-      subject: `Confirm your account on ${this.config.serviceName}`,
-      template: 'account-confirmation',
-      context: {
-        userName: data.username,
-        serviceName: this.config.serviceName,
-        confirmationUrl,
-        expirationTime: this.config.confirmationTokenAlive.text,
-      },
-    });
+    this.mailer
+      .sendEmail({
+        email: data.email,
+        subject: `Confirm your account on ${this.config.serviceName}`,
+        template: 'account-confirmation',
+        context: {
+          userName: data.username,
+          serviceName: this.config.serviceName,
+          confirmationUrl,
+          expirationTime: this.config.confirmationTokenAlive.text,
+        },
+      })
+      .catch((error) => {
+        // Should be logged
+        console.error('Error sending confirmation email:', error);
+      });
   }
 
   createToken() {

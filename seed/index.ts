@@ -2,11 +2,15 @@ import chalk from 'chalk';
 import { DataSource } from 'typeorm';
 import { runSeeder } from 'typeorm-extension';
 
-import { Provider } from '../src/context/auth/infrastructure/persistence/entities/provider.entity';
-import { Role } from '../src/context/auth/infrastructure/persistence/entities/role.entity';
-
 import ProviderSeeder from './provider.seeder';
 import RoleSeeder from './role.seeder';
+import {
+  Provider,
+  Role,
+  User,
+  UserConfirmationToken,
+  UserProfile,
+} from '../src/context/auth/infrastructure/persistence/entities';
 
 const dataSource = new DataSource({
   type: 'mysql',
@@ -16,7 +20,7 @@ const dataSource = new DataSource({
   password: 'mysql',
   database: 'cerbeus',
   synchronize: true,
-  entities: [Provider, Role],
+  entities: [UserConfirmationToken, UserProfile, Provider, Role, User],
 });
 
 async function main() {

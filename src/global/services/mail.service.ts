@@ -16,9 +16,9 @@ export class EmailService {
     context?: { [name: string]: any };
   }) {
     await this.mail.sendMail({
-      from: this.config.emailHostUser,
+      from: `${this.config.serviceName} <${this.config.emailHostUser}>`,
       to: options.email,
-      subject: `${options.subject} <${this.config.emailHostUser}>`,
+      subject: options.subject,
       template: options.template,
       context: options.context,
     });

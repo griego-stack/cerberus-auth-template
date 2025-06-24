@@ -19,7 +19,7 @@ export const MailerProvider: MailerAsyncOptions = {
       from: `Soporte <${app.emailHostUser}>`,
     },
     template: {
-      dir: path.join(__dirname, 'templates'),
+      dir: path.join(__dirname, '/../../../../src/templates'),
       adapter: new HandlebarsAdapter(),
       options: {
         strict: true,

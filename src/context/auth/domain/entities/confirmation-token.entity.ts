@@ -1,4 +1,5 @@
 export interface IUserConfirmationToken {
+  id: number;
   userId: number;
   token: string;
   expiration: Date;
@@ -7,16 +8,18 @@ export interface IUserConfirmationToken {
 
 export type CreateUserConfirmationTokenDTO = Omit<
   IUserConfirmationToken,
-  'isUsed'
+  'id' | 'isUsed'
 >;
 
 export class UserConfirmationTokenEntity implements IUserConfirmationToken {
+  id: number;
   userId: number;
   token: string;
   expiration: Date;
   isUsed: boolean;
 
   constructor(attrs: IUserConfirmationToken) {
+    this.id = attrs.id;
     this.userId = attrs.userId;
     this.token = attrs.token;
     this.expiration = attrs.expiration;
@@ -26,6 +29,7 @@ export class UserConfirmationTokenEntity implements IUserConfirmationToken {
   static create(attrs: CreateUserConfirmationTokenDTO) {
     return new UserConfirmationTokenEntity({
       ...attrs,
+      id: 0,
       isUsed: false,
     });
   }

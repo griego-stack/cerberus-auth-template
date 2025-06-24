@@ -1,6 +1,6 @@
 export interface CreateUserAccountDTO {
   metadata: {
-    redirectURL: string;
+    redirectURL?: string;
   };
   username: string;
   firstname: string;
