@@ -4,6 +4,10 @@
 
 ---
 
+## 📊 Resources
+
+- [Database diagram (Auth)](https://dbdesigner.page.link/uFMNCMAJ2JCUsJko7)
+
 ## 🚀 Project Setup
 
 ### 1. Clone the repository
