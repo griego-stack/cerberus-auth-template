@@ -8,4 +8,5 @@ export abstract class UserRepository {
   abstract create(data: UserEntity): Promise<UserEntity>;
   abstract updateLastlogin(userId: number): Promise<boolean>;
   abstract confirmEmail(userId: number): Promise<boolean>;
+  abstract changePassword(userId: number, password: string): Promise<boolean>;
 }

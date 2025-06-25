@@ -4,6 +4,8 @@ export * from './v1/controllers/account/create-account/create-account.controller
 export * from './v1/controllers/account/create-account/create-account.dto';
 export * from './v1/controllers/account/refresh-token/refresh-token.controller';
 export * from './v1/controllers/account/refresh-token/refresh-token.dto';
+export * from './v1/controllers/password/confirm-change/confirm-change.controller';
+export * from './v1/controllers/password/confirm-change/confirm-change.dto';
 export * from './v1/controllers/password/request-change/request-change.controller';
 export * from './v1/controllers/password/request-change/request-change.dto';
 export * from './v1/controllers/session/login/login.controller';

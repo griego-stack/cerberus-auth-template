@@ -1,5 +1,6 @@
 import { Module } from 'src/bootstrap';
 import {
+  ConfirmChangePasswordController,
   ConfirmUserAccountController,
   CreateUserAccountController,
   RefreshConfirmationTokenController,
@@ -9,6 +10,7 @@ import {
   UserLogoutController,
 } from './http-api';
 import {
+  ConfirmChangePasswordUseCase,
   ConfirmUserAccountUseCase,
   CreateUserAccountUseCase,
   RefreshTokenUseCase,
@@ -41,6 +43,7 @@ import {
     UserLogoutController,
     RefreshTokenController,
     RequestChangePasswordController,
+    ConfirmChangePasswordController,
   ],
   providers: [
     ConfirmUserAccountUseCase,
@@ -50,6 +53,7 @@ import {
     UserLogoutUseCase,
     RefreshTokenUseCase,
     RequestChangePasswordUseCase,
+    ConfirmChangePasswordUseCase,
     {
       provide: UserConfirmationTokenRepository,
       useClass: InDatabaseUserConfirmationTokenRepository,
@@ -84,6 +88,7 @@ import {
     RefreshTokenUseCase,
     RequestChangePasswordUseCase,
     UserRefreshConfirmationTokenUseCase,
+    ConfirmChangePasswordUseCase,
     InDatabaseUserConfirmationTokenRepository,
     InDatabaseUserLoginAttemptsRepository,
     InDatabaseUserProfileRepository,
