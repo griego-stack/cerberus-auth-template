@@ -35,6 +35,8 @@ import {
   exports: [
     CreateUserAccountUseCase,
     InDatabaseUserConfirmationTokenRepository,
+    InDatabaseUserProfileRepository,
+    InDatabaseUserRepository,
   ],
 })
 export class AuthModule {}
