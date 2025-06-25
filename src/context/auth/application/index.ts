@@ -5,3 +5,4 @@ export * from './account/refresh-token/refresh-token.dto';
 export * from './account/refresh-token/refresh-token.use-case';
 export * from './session/login/login.dto';
 export * from './session/login/login.use-case';
+export * from './session/logout/logout.use-case';

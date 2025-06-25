@@ -80,6 +80,7 @@ export class UserLoginUseCase {
       .setCookie('access_token', sessionTokens.accessToken, {
         domain: req.hostname,
         expires: new Date(Date.now() + this.config.accessTokenAlive.time),
+        path: '/',
         httpOnly: true,
         sameSite: 'none',
         secure: true,
@@ -87,6 +88,7 @@ export class UserLoginUseCase {
       .setCookie('refresh_token', sessionTokens.refreshToken, {
         domain: req.hostname,
         expires: new Date(Date.now() + this.config.refreshTokenAlive.time),
+        path: '/',
         httpOnly: true,
         sameSite: 'none',
         secure: true,
