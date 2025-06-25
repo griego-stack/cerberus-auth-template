@@ -32,6 +32,13 @@ export class InDatabaseUserRefreshTokenRepository
     await userRefreshToken.save();
   }
 
+  async invalidateOldTokens(userId: number): Promise<void> {
+    await UserRefreshToken.update(
+      { user: { id: userId }, revoked: false },
+      { revoked: true },
+    );
+  }
+
   async create(data: UserRefreshTokenEntity): Promise<UserRefreshTokenEntity> {
     const refreshToken = UserRefreshToken.create({
       user: { id: data.userId } as User,
