@@ -2,6 +2,7 @@ import { UserEntity } from '../entities/user.entity';
 
 export abstract class UserRepository {
   abstract findAll(): Promise<UserEntity[]>;
+  abstract findById(id: number): Promise<UserEntity | null>;
   abstract findByUsername(username: string): Promise<UserEntity | null>;
   abstract findByEmail(email: string): Promise<UserEntity | null>;
   abstract create(data: UserEntity): Promise<UserEntity>;

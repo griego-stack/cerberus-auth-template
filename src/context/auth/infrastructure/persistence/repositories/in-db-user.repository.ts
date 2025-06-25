@@ -10,6 +10,14 @@ export class InDatabaseUserRepository implements UserRepository {
     return users.map((user) => this._createUserEntityInstance(user));
   }
 
+  async findById(id: number): Promise<UserEntity | null> {
+    const user = await User.findOne({
+      where: { id },
+      relations: ['provider', 'role'],
+    });
+    return user ? this._createUserEntityInstance(user) : null;
+  }
+
   async findByUsername(username: string): Promise<UserEntity | null> {
     const user = await User.findOne({
       where: { username },

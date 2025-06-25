@@ -9,6 +9,7 @@ export * from './entities/role.entity';
 export * from './entities/user.entity';
 export * from './exceptions/invalid-token.exception';
 export * from './exceptions/ip-banned.exception';
+export * from './exceptions/session-expire.exception';
 export * from './exceptions/token-required.exception';
 export * from './exceptions/user-already-exists.exception';
 export * from './exceptions/user-email-already-confirmed.exception';

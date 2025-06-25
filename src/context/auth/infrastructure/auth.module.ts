@@ -3,12 +3,14 @@ import {
   ConfirmUserAccountController,
   CreateUserAccountController,
   RefreshConfirmationTokenController,
+  RefreshTokenController,
   UserLoginController,
   UserLogoutController,
 } from './http-api';
 import {
   ConfirmUserAccountUseCase,
   CreateUserAccountUseCase,
+  RefreshTokenUseCase,
   UserLoginUseCase,
   UserLogoutUseCase,
   UserRefreshConfirmationTokenUseCase,
@@ -35,6 +37,7 @@ import {
     UserLoginController,
     RefreshConfirmationTokenController,
     UserLogoutController,
+    RefreshTokenController,
   ],
   providers: [
     ConfirmUserAccountUseCase,
@@ -42,6 +45,7 @@ import {
     UserLoginUseCase,
     UserRefreshConfirmationTokenUseCase,
     UserLogoutUseCase,
+    RefreshTokenUseCase,
     {
       provide: UserConfirmationTokenRepository,
       useClass: InDatabaseUserConfirmationTokenRepository,
@@ -73,6 +77,7 @@ import {
     ConfirmUserAccountUseCase,
     UserLoginUseCase,
     UserLogoutUseCase,
+    RefreshTokenUseCase,
     UserRefreshConfirmationTokenUseCase,
     InDatabaseUserConfirmationTokenRepository,
     InDatabaseUserLoginAttemptsRepository,
