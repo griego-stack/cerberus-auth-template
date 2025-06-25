@@ -14,6 +14,7 @@ export const databaseProviders = [
         username: databaseConfig.username,
         password: databaseConfig.password,
         database: databaseConfig.database,
+        timezone: 'Z',
         entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
         synchronize: true,
       });

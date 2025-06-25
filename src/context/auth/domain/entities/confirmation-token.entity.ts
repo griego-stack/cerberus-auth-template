@@ -2,7 +2,7 @@ export interface IUserConfirmationToken {
   id: number;
   userId: number;
   token: string;
-  expiration: Date;
+  expiresAt: Date;
   isUsed: boolean;
 }
 
@@ -15,14 +15,14 @@ export class UserConfirmationTokenEntity implements IUserConfirmationToken {
   id: number;
   userId: number;
   token: string;
-  expiration: Date;
+  expiresAt: Date;
   isUsed: boolean;
 
   constructor(attrs: IUserConfirmationToken) {
     this.id = attrs.id;
     this.userId = attrs.userId;
     this.token = attrs.token;
-    this.expiration = attrs.expiration;
+    this.expiresAt = attrs.expiresAt;
     this.isUsed = attrs.isUsed;
   }
 

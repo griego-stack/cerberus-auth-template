@@ -1,11 +1,12 @@
-import {
-  CreateUserLoginAttempsDTO,
-  UserLoginAttempsEntity,
-} from '../entities/login-attemps.entity';
+import { UserLoginAttempsEntity } from '../entities/login-attemps.entity';
 
 export abstract class UserLoginAttempsRepository {
-  abstract findAll(): Promise<UserLoginAttempsEntity[]>;
+  abstract countIpInLastWindow(
+    ipAddress: string,
+    windowStart: number,
+  ): Promise<number>;
+
   abstract create(
-    data: CreateUserLoginAttempsDTO,
+    data: UserLoginAttempsEntity,
   ): Promise<UserLoginAttempsEntity>;
 }

@@ -1,7 +1,7 @@
 export interface IUserLoginAttemps {
   id: number;
-  userId: number;
-  email: string;
+  userId?: number;
+  userIdentificator?: string;
   ipAddress: string;
   deviceInfo: string;
   success: boolean;
@@ -15,8 +15,8 @@ export type CreateUserLoginAttempsDTO = Omit<
 
 export class UserLoginAttempsEntity implements IUserLoginAttemps {
   id: number;
-  userId: number;
-  email: string;
+  userId?: number;
+  userIdentificator?: string;
   ipAddress: string;
   deviceInfo: string;
   success: boolean;
@@ -25,7 +25,7 @@ export class UserLoginAttempsEntity implements IUserLoginAttemps {
   constructor(attrs: IUserLoginAttemps) {
     this.id = attrs.id;
     this.userId = attrs.userId;
-    this.email = attrs.email;
+    this.userIdentificator = attrs.userIdentificator;
     this.ipAddress = attrs.ipAddress;
     this.deviceInfo = attrs.deviceInfo;
     this.success = attrs.success;

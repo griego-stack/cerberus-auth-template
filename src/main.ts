@@ -3,6 +3,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import cookie from '@fastify/cookie';
 
 import { ValidationPipe } from 'src/bootstrap';
 import { AppModule } from './app.module';
@@ -17,6 +18,11 @@ async function bootstrap() {
   );
 
   const config = app.get(AppConfigService);
+
+  const fastify = app.getHttpAdapter().getInstance();
+  await fastify.register(cookie, {
+    secret: config.cookie_secret,
+  });
 
   app.setGlobalPrefix(config.globalPrefix);
   app.useGlobalFilters(app.get(ErrorResponseNormalizerFilter));

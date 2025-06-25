@@ -24,11 +24,12 @@ export class ErrorResponseNormalizerFilter implements ExceptionFilter {
 
     const status = exception.getStatus();
 
-    this.logger.error(
-      rawException.message,
-      rawException.stack,
-      'ExceptionFilter',
-    );
+    if (!(rawException instanceof HttpException))
+      this.logger.error(
+        rawException.message,
+        rawException.stack,
+        'ExceptionFilter',
+      );
 
     await response
       .status(status)

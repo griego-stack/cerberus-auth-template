@@ -5,11 +5,13 @@ import { runSeeder } from 'typeorm-extension';
 import ProviderSeeder from './provider.seeder';
 import RoleSeeder from './role.seeder';
 import {
+  UserLoginAttemps,
   Provider,
   Role,
   User,
   UserConfirmationToken,
   UserProfile,
+  UserRefreshToken,
 } from '../src/context/auth/infrastructure/persistence/entities';
 
 const dataSource = new DataSource({
@@ -20,7 +22,15 @@ const dataSource = new DataSource({
   password: 'mysql',
   database: 'cerbeus',
   synchronize: true,
-  entities: [UserConfirmationToken, UserProfile, Provider, Role, User],
+  entities: [
+    UserConfirmationToken,
+    UserLoginAttemps,
+    UserProfile,
+    Provider,
+    UserRefreshToken,
+    Role,
+    User,
+  ],
 });
 
 async function main() {
