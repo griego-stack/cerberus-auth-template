@@ -4,19 +4,26 @@ import {
   IsNotEmpty,
   MinLength,
   Matches,
+  MaxLength,
 } from 'class-validator';
 
 export class CreateUserAccountDTO {
   @IsString()
   @IsNotEmpty()
+  @MinLength(3)
+  @MaxLength(32)
   username: string;
 
   @IsString()
   @IsNotEmpty()
+  @MinLength(1)
+  @MaxLength(50)
   firstname: string;
 
   @IsString()
   @IsNotEmpty()
+  @MinLength(1)
+  @MaxLength(50)
   lastname: string;
 
   @IsEmail()

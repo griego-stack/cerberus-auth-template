@@ -6,10 +6,13 @@ import {
   ExceptionFilter,
   HttpException,
   InternalServerErrorException,
+  Logger,
 } from 'src/bootstrap';
 
 @Catch()
 export class ErrorResponseNormalizerFilter implements ExceptionFilter {
+  private readonly logger = new Logger(ErrorResponseNormalizerFilter.name);
+
   async catch(rawException: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<FastifyReply>();
@@ -20,6 +23,12 @@ export class ErrorResponseNormalizerFilter implements ExceptionFilter {
         : new InternalServerErrorException();
 
     const status = exception.getStatus();
+
+    this.logger.error(
+      rawException.message,
+      rawException.stack,
+      'ExceptionFilter',
+    );
 
     await response
       .status(status)

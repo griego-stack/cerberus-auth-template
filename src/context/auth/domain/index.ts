@@ -1,4 +1,3 @@
-export * from './entities/audit-logs.entity';
 export * from './entities/confirmation-token.entity';
 export * from './entities/device.entity';
 export * from './entities/login-attemps.entity';
@@ -8,7 +7,7 @@ export * from './entities/provider.entity';
 export * from './entities/refresh-token.entity';
 export * from './entities/role.entity';
 export * from './entities/user.entity';
-export * from './repositories/audit-logs.repository';
+export * from './exceptions/user-already-exists.exception';
 export * from './repositories/confirmation-token.repository';
 export * from './repositories/device.repository';
 export * from './repositories/login-attemps.repository';

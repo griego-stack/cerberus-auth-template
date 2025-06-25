@@ -28,6 +28,13 @@ import {
       provide: UserRepository,
       useClass: InDatabaseUserRepository,
     },
+    InDatabaseUserConfirmationTokenRepository,
+    InDatabaseUserProfileRepository,
+    InDatabaseUserRepository,
+  ],
+  exports: [
+    CreateUserAccountUseCase,
+    InDatabaseUserConfirmationTokenRepository,
   ],
 })
 export class AuthModule {}

@@ -38,7 +38,7 @@ export class CreateUserAccountUseCase {
       throw new UserAlreadyExistsException();
     }
 
-    const token = this.createToken();
+    const token = this._createToken();
     const expirationToken = new Date(
       Date.now() + this.config.confirmationTokenAlive.time,
     );
@@ -48,7 +48,7 @@ export class CreateUserAccountUseCase {
       const newUser = UserEntity.create({
         username: data.username,
         email: data.email,
-        password: await this.hashPassword(data.password),
+        password: await this._hashPassword(data.password),
         providerId: 1, // EMAIL
         roleId: 1, // USER
       });
@@ -96,11 +96,11 @@ export class CreateUserAccountUseCase {
       });
   }
 
-  createToken() {
+  _createToken() {
     return nanoid(32);
   }
 
-  hashPassword(password: string) {
+  _hashPassword(password: string) {
     return argon2.hash(password);
   }
 }
