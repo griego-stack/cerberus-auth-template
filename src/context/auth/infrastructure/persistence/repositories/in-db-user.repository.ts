@@ -60,6 +60,11 @@ export class InDatabaseUserRepository implements UserRepository {
     return user.affected ? true : false;
   }
 
+  async changePassword(userId: number, password: string): Promise<boolean> {
+    const user = await User.update({ id: userId }, { password });
+    return user.affected ? true : false;
+  }
+
   _createUserEntityInstance(data: User): UserEntity {
     return new UserEntity({
       id: data.id,

@@ -35,6 +35,10 @@ export class AppConfigService {
     return { time: 5 * 60 * 1000, text: '5 minutes' };
   }
 
+  get requestChangePasswordAlive(): { time: number; text: string } {
+    return { time: 30 * 60 * 1000, text: '30 minutes' };
+  }
+
   // Secrets
 
   get jwt_secret_key(): string {
