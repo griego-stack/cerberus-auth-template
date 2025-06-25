@@ -4,11 +4,12 @@ import {
   Column,
   BaseEntity,
   ManyToOne,
+  CreateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 
-@Entity({ name: 'confirmation_token' })
-export class UserConfirmationToken extends BaseEntity {
+@Entity({ name: 'refresh_token' })
+export class UserRefreshToken extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,6 +22,15 @@ export class UserConfirmationToken extends BaseEntity {
   @Column({ type: 'timestamp' })
   expiresAt: Date;
 
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @Column({ type: 'text' })
+  deviceInfo: string;
+
+  @Column({ type: 'varchar', length: 45 })
+  ipAddress: string;
+
   @Column({ type: 'boolean', default: false })
-  isUsed: boolean;
+  revoked: boolean;
 }

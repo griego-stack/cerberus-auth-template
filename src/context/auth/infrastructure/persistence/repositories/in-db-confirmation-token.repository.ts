@@ -26,7 +26,7 @@ export class InDatabaseUserConfirmationTokenRepository
     const confirmationToken = UserConfirmationToken.create({
       user: { id: data.userId } as User,
       token: data.token,
-      expiration: data.expiration,
+      expiresAt: data.expiresAt,
       isUsed: data.isUsed,
     });
 
@@ -43,7 +43,7 @@ export class InDatabaseUserConfirmationTokenRepository
       id: data.id,
       userId: data.user.id,
       token: data.token,
-      expiration: data.expiration,
+      expiresAt: data.expiresAt,
       isUsed: data.isUsed,
     });
   }

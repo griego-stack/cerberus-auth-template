@@ -6,12 +6,24 @@ import { Provider, Role } from '../entities';
 @Injectable()
 export class InDatabaseUserRepository implements UserRepository {
   async findAll(): Promise<UserEntity[]> {
-    const users = await User.find();
+    const users = await User.find({ relations: ['provider', 'role'] });
     return users.map((user) => this._createUserEntityInstance(user));
   }
 
+  async findByUsername(username: string): Promise<UserEntity | null> {
+    const user = await User.findOne({
+      where: { username },
+      relations: ['provider', 'role'],
+    });
+
+    return user ? this._createUserEntityInstance(user) : null;
+  }
+
   async findByEmail(email: string): Promise<UserEntity | null> {
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({
+      where: { email },
+      relations: ['provider', 'role'],
+    });
     return user ? this._createUserEntityInstance(user) : null;
   }
 
@@ -28,6 +40,11 @@ export class InDatabaseUserRepository implements UserRepository {
 
     const savedUser = await user.save();
     return this._createUserEntityInstance(savedUser);
+  }
+
+  async updateLastlogin(userId: number) {
+    const user = await User.update({ id: userId }, { lastLogin: new Date() });
+    return user.affected ? true : false;
   }
 
   _createUserEntityInstance(data: User): UserEntity {

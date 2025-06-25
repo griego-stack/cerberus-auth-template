@@ -49,6 +49,7 @@ PORT=8000
 
 # Secrets
 JWT_SECRET_KEY=your-secret-key
+COOKIE_SECRET=your-secret
 
 # Client Configuration
 CLIENT_1_URL=http://localhost:3000

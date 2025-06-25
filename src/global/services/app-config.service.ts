@@ -27,10 +27,22 @@ export class AppConfigService {
     return { time: 24 * 60 * 60 * 1000, text: '24 hours' };
   }
 
+  get refreshTokenAlive(): { time: number; text: string } {
+    return { time: 30 * 24 * 60 * 60 * 1000, text: '30 days' };
+  }
+
+  get accessTokenAlive(): { time: number; text: string } {
+    return { time: 5 * 60 * 1000, text: '5 minutes' };
+  }
+
   // Secrets
 
   get jwt_secret_key(): string {
     return this.config.get<string>('JWT_SECRET_KEY') || 'default_secret_key';
+  }
+
+  get cookie_secret(): string {
+    return this.config.get<string>('COOKIE_SECRET') || 'default_cookie_secret';
   }
 
   // Client Configuration

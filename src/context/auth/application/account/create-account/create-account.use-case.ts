@@ -66,7 +66,7 @@ export class CreateUserAccountUseCase {
       const newConfirmationToken = UserConfirmationTokenEntity.create({
         userId: newUserCreated.id,
         token: token,
-        expiration: expirationToken,
+        expiresAt: expirationToken,
       });
 
       await this.confirmationToken.create(newConfirmationToken);
