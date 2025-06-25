@@ -32,6 +32,13 @@ export class InDatabaseUserConfirmationTokenRepository
     await confirmationToken.save();
   }
 
+  async invalidateOldTokens(userId: number): Promise<void> {
+    await UserConfirmationToken.update(
+      { user: { id: userId }, isUsed: false },
+      { isUsed: true },
+    );
+  }
+
   async create(
     data: UserConfirmationTokenEntity,
   ): Promise<UserConfirmationTokenEntity> {

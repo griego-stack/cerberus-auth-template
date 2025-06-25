@@ -34,6 +34,8 @@ export class UserRefreshConfirmationTokenUseCase {
     const confirmationUrl = `${data.metadata.redirectURL}?token=${token}`;
 
     try {
+      await this.confirmationToken.invalidateOldTokens(user.id);
+
       const newConfirmationToken = UserConfirmationTokenEntity.create({
         userId: user.id,
         token,
