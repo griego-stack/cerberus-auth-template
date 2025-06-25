@@ -1,6 +1,6 @@
 import { Module } from 'src/bootstrap';
-import { CreateUserAccountController } from './http-api';
-import { CreateUserAccountUseCase } from '../application';
+import { CreateUserAccountController, UserLoginController } from './http-api';
+import { CreateUserAccountUseCase, UserLoginUseCase } from '../application';
 import {
   UserConfirmationTokenRepository,
   UserLoginAttempsRepository,
@@ -14,8 +14,6 @@ import {
   InDatabaseUserRefreshTokenRepository,
   InDatabaseUserRepository,
 } from './persistence';
-import { UserLoginController } from './http-api/v1/controllers/session/login/login.controller';
-import { UserLoginUseCase } from '../application/session/login/login.use-case';
 import { InDatabaseUserLoginAttemptsRepository } from './persistence/repositories/in-db-login-attemps.repository';
 
 @Module({

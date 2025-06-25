@@ -51,6 +51,16 @@ export class AppConfigService {
     return [this.config.get<string>('CLIENT_1_URL') || 'http://localhost:3000'];
   }
 
+  // Session Configuration
+
+  get maxAttemps(): number {
+    return 5;
+  }
+
+  get windowAttemptsWindowTime(): number {
+    return 15 * 60 * 1000;
+  }
+
   // Email Configuration
 
   get emailHost(): string {

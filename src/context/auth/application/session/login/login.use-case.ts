@@ -4,17 +4,18 @@ import { nanoid } from 'nanoid';
 import { JwtService } from '@nestjs/jwt';
 import { Injectable } from 'src/bootstrap';
 import {
+  IPBlockedException,
+  UserEmailNotVerifiedException,
   UserEntity,
+  UserInactiveException,
+  UserInvalidCredentialsException,
   UserLoginAttempsEntity,
   UserLoginAttempsRepository,
+  UserNotFoundException,
   UserRefreshTokenEntity,
   UserRefreshTokenRepository,
   UserRepository,
 } from 'src/context/auth/domain';
-import { UserNotFoundException } from 'src/context/auth/domain/exceptions/user-not-found.exception';
-import { UserEmailNotVerifiedException } from 'src/context/auth/domain/exceptions/user-email-not-verified.exception';
-import { UserInactiveException } from 'src/context/auth/domain/exceptions/user-inactive.exception';
-import { UserInvalidCredentialsException } from 'src/context/auth/domain/exceptions/user-invalid-credentials.exception';
 import { AppConfigService } from 'src/global/services/app-config.service';
 import { UserLoginDTO } from './login.dto';
 
@@ -29,6 +30,8 @@ export class UserLoginUseCase {
   ) {}
 
   async execute(req: FastifyRequest, res: FastifyReply, data: UserLoginDTO) {
+    if (await this._isBannedIp(req.ip)) throw new IPBlockedException();
+
     let user: UserEntity | null = null;
 
     if (!data.username && data.email)
@@ -91,6 +94,7 @@ export class UserLoginUseCase {
 
     await this.loginAttempts.create(
       UserLoginAttempsEntity.create({
+        userId: user.id,
         userIdentificator: data.username || data.email,
         ipAddress: req.ip,
         deviceInfo: req.headers['user-agent'] || '',
@@ -117,5 +121,14 @@ export class UserLoginUseCase {
         Date.now() + this.config.refreshTokenAlive.time,
       ),
     };
+  }
+
+  async _isBannedIp(ip: string): Promise<boolean> {
+    const recentAttemps = await this.loginAttempts.countIpInLastWindow(
+      ip,
+      this.config.windowAttemptsWindowTime,
+    );
+
+    return recentAttemps >= this.config.maxAttemps;
   }
 }

@@ -9,6 +9,25 @@ import { User, UserLoginAttemps } from '../entities';
 export class InDatabaseUserLoginAttemptsRepository
   implements UserLoginAttempsRepository
 {
+  async countIpInLastWindow(
+    ipAddress: string,
+    windowMs: number,
+  ): Promise<number> {
+    const now = new Date();
+    const rangeStart = new Date(now.getTime() - windowMs);
+
+    const count = await UserLoginAttemps.createQueryBuilder('attempt')
+      .where('attempt.ipAddress = :ip', { ip: ipAddress })
+      .andWhere('attempt.success = false')
+      .andWhere('attempt.createdAt BETWEEN :start AND :end', {
+        start: rangeStart,
+        end: now,
+      })
+      .getCount();
+
+    return count;
+  }
+
   async create(data: UserLoginAttempsEntity): Promise<UserLoginAttempsEntity> {
     const loginAttempt = UserLoginAttemps.create({
       user: data.userId ? ({ id: data.userId } as User) : undefined,
