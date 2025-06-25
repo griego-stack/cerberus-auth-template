@@ -11,6 +11,7 @@ export * from './exceptions/invalid-token.exception';
 export * from './exceptions/ip-banned.exception';
 export * from './exceptions/token-required.exception';
 export * from './exceptions/user-already-exists.exception';
+export * from './exceptions/user-email-already-confirmed.exception';
 export * from './exceptions/user-email-not-verified.exception';
 export * from './exceptions/user-inactive.exception';
 export * from './exceptions/user-invalid-credentials.exception';

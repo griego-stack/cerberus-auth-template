@@ -2,12 +2,14 @@ import { Module } from 'src/bootstrap';
 import {
   ConfirmUserAccountController,
   CreateUserAccountController,
+  RefreshConfirmationTokenController,
   UserLoginController,
 } from './http-api';
 import {
   ConfirmUserAccountUseCase,
   CreateUserAccountUseCase,
   UserLoginUseCase,
+  UserRefreshConfirmationTokenUseCase,
 } from '../application';
 import {
   UserConfirmationTokenRepository,
@@ -29,11 +31,13 @@ import {
     ConfirmUserAccountController,
     CreateUserAccountController,
     UserLoginController,
+    RefreshConfirmationTokenController,
   ],
   providers: [
     ConfirmUserAccountUseCase,
     CreateUserAccountUseCase,
     UserLoginUseCase,
+    UserRefreshConfirmationTokenUseCase,
     {
       provide: UserConfirmationTokenRepository,
       useClass: InDatabaseUserConfirmationTokenRepository,
@@ -64,6 +68,7 @@ import {
     CreateUserAccountUseCase,
     ConfirmUserAccountUseCase,
     UserLoginUseCase,
+    UserRefreshConfirmationTokenUseCase,
     InDatabaseUserConfirmationTokenRepository,
     InDatabaseUserLoginAttemptsRepository,
     InDatabaseUserProfileRepository,
