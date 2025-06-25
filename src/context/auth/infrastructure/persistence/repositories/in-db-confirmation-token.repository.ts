@@ -13,11 +13,23 @@ export class InDatabaseUserConfirmationTokenRepository
   async findOne(token: string): Promise<UserConfirmationTokenEntity | null> {
     const confirmationToken = await UserConfirmationToken.findOne({
       where: { token },
+      relations: ['user'],
     });
 
     return confirmationToken
       ? this._createUserConfirmationTokenEntityInstance(confirmationToken)
       : null;
+  }
+
+  async useToken(id: number): Promise<void> {
+    const confirmationToken = await UserConfirmationToken.findOne({
+      where: { id },
+    });
+
+    if (!confirmationToken) return;
+
+    confirmationToken.isUsed = true;
+    await confirmationToken.save();
   }
 
   async create(

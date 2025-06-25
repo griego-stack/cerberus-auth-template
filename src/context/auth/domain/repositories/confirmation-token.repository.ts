@@ -2,6 +2,7 @@ import { UserConfirmationTokenEntity } from '../entities/confirmation-token.enti
 
 export abstract class UserConfirmationTokenRepository {
   abstract findOne(token: string): Promise<UserConfirmationTokenEntity | null>;
+  abstract useToken(id: number): Promise<void>;
   abstract create(
     data: UserConfirmationTokenEntity,
   ): Promise<UserConfirmationTokenEntity>;

@@ -45,4 +45,8 @@ export class UserRefreshTokenEntity implements IUserRefreshToken {
       revoked: false,
     });
   }
+
+  isExpired(): boolean {
+    return this.expiresAt < new Date();
+  }
 }

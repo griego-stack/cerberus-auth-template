@@ -16,7 +16,7 @@ export class UserRefreshToken extends BaseEntity {
   @ManyToOne(() => User, (user) => user.id)
   user: User;
 
-  @Column({ type: 'varchar', length: 32, unique: true })
+  @Column({ type: 'char', length: 32, unique: true })
   token: string;
 
   @Column({ type: 'timestamp' })

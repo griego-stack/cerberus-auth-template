@@ -33,4 +33,8 @@ export class UserConfirmationTokenEntity implements IUserConfirmationToken {
       isUsed: false,
     });
   }
+
+  isExpired(): boolean {
+    return this.expiresAt < new Date();
+  }
 }

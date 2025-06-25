@@ -31,6 +31,7 @@ const dataSource = new DataSource({
     Role,
     User,
   ],
+  timezone: 'Z',
 });
 
 async function main() {
