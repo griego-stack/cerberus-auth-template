@@ -17,6 +17,7 @@ export class ConfirmChangePasswordUseCase {
     private readonly config: AppConfigService,
     private readonly mailer: EmailService,
     private readonly confirmToken: UserConfirmationTokenRepository,
+    private readonly refreshToken: UserConfirmationTokenRepository,
     private readonly user: UserRepository,
   ) {}
 
@@ -39,6 +40,7 @@ export class ConfirmChangePasswordUseCase {
     );
 
     await this.confirmToken.invalidateOldTokens(user.id);
+    await this.refreshToken.invalidateOldTokens(user.id);
 
     this.mailer
       .sendEmail({
