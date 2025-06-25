@@ -21,9 +21,9 @@ export class InDatabaseUserRefreshTokenRepository
       : null;
   }
 
-  async revokeToken(id: number): Promise<void> {
+  async revokeToken(token: string): Promise<void> {
     const userRefreshToken = await UserRefreshToken.findOne({
-      where: { id },
+      where: { token },
     });
 
     if (!userRefreshToken) return;
