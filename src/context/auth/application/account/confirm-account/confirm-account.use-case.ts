@@ -3,11 +3,15 @@ import {
   InvalidTokenException,
   TokenRequiredException,
   UserConfirmationTokenRepository,
+  UserRepository,
 } from 'src/context/auth/domain';
 
 @Injectable()
 export class ConfirmUserAccountUseCase {
-  constructor(private readonly confirmToken: UserConfirmationTokenRepository) {}
+  constructor(
+    private readonly confirmToken: UserConfirmationTokenRepository,
+    private readonly user: UserRepository,
+  ) {}
 
   async execute(token: string) {
     if (!token) throw new TokenRequiredException();
@@ -23,5 +27,6 @@ export class ConfirmUserAccountUseCase {
       throw new InvalidTokenException();
 
     await this.confirmToken.useToken(tokenInDatabase.id);
+    await this.user.confirmEmail(tokenInDatabase.userId);
   }
 }

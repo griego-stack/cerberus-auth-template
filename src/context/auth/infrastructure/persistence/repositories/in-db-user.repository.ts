@@ -47,6 +47,11 @@ export class InDatabaseUserRepository implements UserRepository {
     return user.affected ? true : false;
   }
 
+  async confirmEmail(userId: number): Promise<boolean> {
+    const user = await User.update({ id: userId }, { isEmailVerified: true });
+    return user.affected ? true : false;
+  }
+
   _createUserEntityInstance(data: User): UserEntity {
     return new UserEntity({
       id: data.id,
