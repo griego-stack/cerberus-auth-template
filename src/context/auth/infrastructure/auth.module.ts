@@ -1,6 +1,16 @@
 import { Module } from 'src/bootstrap';
-import { CreateUserAccountController, UserLoginController } from './http-api';
-import { CreateUserAccountUseCase, UserLoginUseCase } from '../application';
+import {
+  ConfirmUserAccountController,
+  CreateUserAccountController,
+  RefreshConfirmationTokenController,
+  UserLoginController,
+} from './http-api';
+import {
+  ConfirmUserAccountUseCase,
+  CreateUserAccountUseCase,
+  UserLoginUseCase,
+  UserRefreshConfirmationTokenUseCase,
+} from '../application';
 import {
   UserConfirmationTokenRepository,
   UserLoginAttempsRepository,
@@ -10,17 +20,24 @@ import {
 } from '../domain';
 import {
   InDatabaseUserConfirmationTokenRepository,
+  InDatabaseUserLoginAttemptsRepository,
   InDatabaseUserProfileRepository,
   InDatabaseUserRefreshTokenRepository,
   InDatabaseUserRepository,
 } from './persistence';
-import { InDatabaseUserLoginAttemptsRepository } from './persistence/repositories/in-db-login-attemps.repository';
 
 @Module({
-  controllers: [CreateUserAccountController, UserLoginController],
+  controllers: [
+    ConfirmUserAccountController,
+    CreateUserAccountController,
+    UserLoginController,
+    RefreshConfirmationTokenController,
+  ],
   providers: [
+    ConfirmUserAccountUseCase,
     CreateUserAccountUseCase,
     UserLoginUseCase,
+    UserRefreshConfirmationTokenUseCase,
     {
       provide: UserConfirmationTokenRepository,
       useClass: InDatabaseUserConfirmationTokenRepository,
@@ -49,6 +66,9 @@ import { InDatabaseUserLoginAttemptsRepository } from './persistence/repositorie
   ],
   exports: [
     CreateUserAccountUseCase,
+    ConfirmUserAccountUseCase,
+    UserLoginUseCase,
+    UserRefreshConfirmationTokenUseCase,
     InDatabaseUserConfirmationTokenRepository,
     InDatabaseUserLoginAttemptsRepository,
     InDatabaseUserProfileRepository,

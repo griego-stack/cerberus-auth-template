@@ -13,11 +13,23 @@ export class InDatabaseUserRefreshTokenRepository
   async findOne(token: string): Promise<UserRefreshTokenEntity | null> {
     const userRefreshToken = await UserRefreshToken.findOne({
       where: { token },
+      relations: ['user'],
     });
 
     return userRefreshToken
       ? this._createUserRefreshTokenEntityInstance(userRefreshToken)
       : null;
+  }
+
+  async revokeToken(id: number): Promise<void> {
+    const userRefreshToken = await UserRefreshToken.findOne({
+      where: { id },
+    });
+
+    if (!userRefreshToken) return;
+
+    userRefreshToken.revoked = true;
+    await userRefreshToken.save();
   }
 
   async create(data: UserRefreshTokenEntity): Promise<UserRefreshTokenEntity> {

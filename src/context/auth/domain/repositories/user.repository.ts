@@ -6,4 +6,5 @@ export abstract class UserRepository {
   abstract findByEmail(email: string): Promise<UserEntity | null>;
   abstract create(data: UserEntity): Promise<UserEntity>;
   abstract updateLastlogin(userId: number): Promise<boolean>;
+  abstract confirmEmail(userId: number): Promise<boolean>;
 }
