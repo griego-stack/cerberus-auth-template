@@ -22,7 +22,7 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', length: 254, unique: true })
   email: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   password: string;
 
   @OneToOne(() => Provider)

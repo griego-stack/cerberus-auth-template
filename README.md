@@ -61,6 +61,10 @@ EMAIL_SECURE=true
 EMAIL_HOST_USER=your-host-user
 EMAIL_HOST_PASSWORD=your-host-password
 
+# Social
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+
 # Database Configuration
 MAIN_DATABASE_NAME=cerbeus
 MAIN_DATABASE_USER=your-user

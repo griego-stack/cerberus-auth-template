@@ -39,6 +39,22 @@ export class AppConfigService {
     return { time: 30 * 60 * 1000, text: '30 minutes' };
   }
 
+  get emailProviderId(): number {
+    return 1;
+  }
+
+  get googleProviderId(): number {
+    return 2;
+  }
+
+  get githubProviderId(): number {
+    return 3;
+  }
+
+  get defaultRoleId(): number {
+    return 1; // USER
+  }
+
   // Secrets
 
   get jwt_secret_key(): string {
@@ -85,6 +101,16 @@ export class AppConfigService {
 
   get emailHostPassword(): string {
     return this.config.get<string>('EMAIL_HOST_PASSWORD') || '';
+  }
+
+  // Social
+
+  get googleClientID(): string {
+    return this.config.get<string>('GOOGLE_CLIENT_ID') || '';
+  }
+
+  get googleClientSecret(): string {
+    return this.config.get<string>('GOOGLE_CLIENT_SECRET') || '';
   }
 
   // Database Configuration

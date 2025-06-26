@@ -3,6 +3,7 @@ import { FastifyRequest } from 'fastify';
 import { Injectable } from 'src/bootstrap';
 import { ChangePasswordDTO } from './change.dto';
 import {
+  InvalidUserProviderException,
   SessionExpiredException,
   UserInvalidCredentialsException,
   UserRefreshTokenRepository,
@@ -31,6 +32,8 @@ export class ChangePasswordUseCase {
 
     const user = await this.user.findById(token.userId);
     if (!user) throw new SessionExpiredException();
+    if (user.providerId !== this.config.googleProviderId || !user.password)
+      throw new InvalidUserProviderException();
 
     if (!(await this._comparePassword(data.oldPassword, user.password)))
       throw new UserInvalidCredentialsException();

@@ -1,9 +1,5 @@
-import {
-  CreateUserProviderDTO,
-  UserProviderEntity,
-} from '../entities/provider.entity';
+import { UserProviderEntity } from '../entities/provider.entity';
 
 export abstract class UserProviderRepository {
-  abstract findAll(): Promise<UserProviderEntity[]>;
-  abstract create(data: CreateUserProviderDTO): Promise<UserProviderEntity>;
+  abstract findOne(id: number): Promise<UserProviderEntity | null>;
 }

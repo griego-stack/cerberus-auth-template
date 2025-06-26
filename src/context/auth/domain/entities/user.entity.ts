@@ -2,7 +2,7 @@ export class IUser {
   id: number;
   username: string;
   email: string;
-  password: string;
+  password?: string;
   providerId: number;
   roleId: number;
   isActive: boolean;
@@ -26,7 +26,7 @@ export class UserEntity implements IUser {
   id: number;
   username: string;
   email: string;
-  password: string;
+  password?: string;
   providerId: number;
   roleId: number;
   isActive: boolean;

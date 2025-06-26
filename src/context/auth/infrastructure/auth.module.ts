@@ -4,6 +4,7 @@ import {
   ConfirmChangePasswordController,
   ConfirmUserAccountController,
   CreateUserAccountController,
+  GoogleSocialLoginController,
   RefreshConfirmationTokenController,
   RefreshTokenController,
   RequestChangePasswordController,
@@ -11,10 +12,12 @@ import {
   UserLogoutController,
 } from './http-api';
 import {
+  AuthSharedService,
   ChangePasswordUseCase,
   ConfirmChangePasswordUseCase,
   ConfirmUserAccountUseCase,
   CreateUserAccountUseCase,
+  GoogleSocialLoginUseCase,
   RefreshTokenUseCase,
   RequestChangePasswordUseCase,
   UserLoginUseCase,
@@ -38,26 +41,39 @@ import {
 
 @Module({
   controllers: [
+    // Account
     ConfirmUserAccountController,
     CreateUserAccountController,
-    UserLoginController,
     RefreshConfirmationTokenController,
+    // Session
+    UserLoginController,
     UserLogoutController,
     RefreshTokenController,
+    // Password
     RequestChangePasswordController,
     ConfirmChangePasswordController,
     ChangePasswordController,
+    // Social
+    GoogleSocialLoginController,
   ],
   providers: [
+    // Shared
+    AuthSharedService,
+    // Account
     ConfirmUserAccountUseCase,
     CreateUserAccountUseCase,
-    UserLoginUseCase,
     UserRefreshConfirmationTokenUseCase,
+    // Session
+    UserLoginUseCase,
     UserLogoutUseCase,
     RefreshTokenUseCase,
+    // Password
     RequestChangePasswordUseCase,
     ConfirmChangePasswordUseCase,
     ChangePasswordUseCase,
+    // Social
+    GoogleSocialLoginUseCase,
+    // Repositories
     {
       provide: UserConfirmationTokenRepository,
       useClass: InDatabaseUserConfirmationTokenRepository,
@@ -85,15 +101,21 @@ import {
     InDatabaseUserRepository,
   ],
   exports: [
+    // Account
     CreateUserAccountUseCase,
     ConfirmUserAccountUseCase,
+    UserRefreshConfirmationTokenUseCase,
+    // Session
     UserLoginUseCase,
     UserLogoutUseCase,
     RefreshTokenUseCase,
+    // Password
     RequestChangePasswordUseCase,
-    UserRefreshConfirmationTokenUseCase,
     ConfirmChangePasswordUseCase,
     ChangePasswordUseCase,
+    // Social
+    GoogleSocialLoginUseCase,
+    // Repositories
     InDatabaseUserConfirmationTokenRepository,
     InDatabaseUserLoginAttemptsRepository,
     InDatabaseUserProfileRepository,
