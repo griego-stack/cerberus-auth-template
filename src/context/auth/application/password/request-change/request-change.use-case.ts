@@ -2,6 +2,7 @@ import { nanoid } from 'nanoid';
 import { Injectable, InternalServerErrorException } from 'src/bootstrap';
 import { RequestChangePasswordDTO } from './request-change.dto';
 import {
+  InvalidUserProviderException,
   UserConfirmationTokenEntity,
   UserConfirmationTokenRepository,
   UserEmailNotVerifiedException,
@@ -24,6 +25,8 @@ export class RequestChangePasswordUseCase {
     const user = await this.user.findByEmail(data.email);
 
     if (!user) throw new UserNotFoundException();
+    if (user.providerId !== this.config.googleProviderId || !user.password)
+      throw new InvalidUserProviderException();
 
     if (!user.isEmailVerified) throw new UserEmailNotVerifiedException();
 

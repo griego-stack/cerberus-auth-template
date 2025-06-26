@@ -1,5 +1,3 @@
-import { nanoid } from 'nanoid';
-import * as argon2 from 'argon2';
 import {
   BadRequestException,
   Injectable,
@@ -17,6 +15,7 @@ import { UserAlreadyExistsException } from 'src/context/auth/domain/exceptions/u
 import { AppConfigService } from 'src/global/services/app-config.service';
 import { EmailService } from 'src/global/services/mail.service';
 import { CreateUserAccountDTO } from './create-account.dto';
+import { AuthSharedService } from '../../shared/auth-shared.service';
 
 @Injectable()
 export class CreateUserAccountUseCase {
@@ -25,6 +24,7 @@ export class CreateUserAccountUseCase {
     private readonly confirmationToken: UserConfirmationTokenRepository,
     private readonly mailer: EmailService,
     private readonly profile: UserProfileRepository,
+    private readonly shared: AuthSharedService,
     private readonly user: UserRepository,
   ) {}
 
@@ -34,11 +34,9 @@ export class CreateUserAccountUseCase {
 
     const existingUser = await this.user.findByEmail(data.email);
 
-    if (existingUser) {
-      throw new UserAlreadyExistsException();
-    }
+    if (existingUser) throw new UserAlreadyExistsException();
 
-    const token = this._createToken();
+    const token = this.shared.createToken();
     const expirationToken = new Date(
       Date.now() + this.config.confirmationTokenAlive.time,
     );
@@ -48,9 +46,9 @@ export class CreateUserAccountUseCase {
       const newUser = UserEntity.create({
         username: data.username,
         email: data.email,
-        password: await this._hashPassword(data.password),
-        providerId: 1, // EMAIL
-        roleId: 1, // USER
+        password: await this.shared.hashPassword(data.password),
+        providerId: this.config.emailProviderId,
+        roleId: this.config.defaultRoleId,
       });
 
       const newUserCreated = await this.user.create(newUser);
@@ -94,13 +92,5 @@ export class CreateUserAccountUseCase {
         // Should be logged
         console.error('Error sending confirmation email:', error);
       });
-  }
-
-  _createToken() {
-    return nanoid(32);
-  }
-
-  _hashPassword(password: string) {
-    return argon2.hash(password);
   }
 }

@@ -1,7 +1,7 @@
 export interface IUserProfile {
   user_id: number;
-  firstname: string;
-  lastname: string;
+  firstname?: string;
+  lastname?: string;
   profileImage?: string;
 }
 
@@ -9,8 +9,8 @@ export type CreateUserProfileDTO = IUserProfile;
 
 export class UserProfileEntity implements IUserProfile {
   user_id: number;
-  firstname: string;
-  lastname: string;
+  firstname?: string;
+  lastname?: string;
   profileImage?: string;
 
   constructor(attrs: IUserProfile) {

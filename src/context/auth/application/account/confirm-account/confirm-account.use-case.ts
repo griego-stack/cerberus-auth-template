@@ -3,13 +3,16 @@ import {
   InvalidTokenException,
   TokenRequiredException,
   UserConfirmationTokenRepository,
+  UserNotFoundException,
   UserRepository,
 } from 'src/context/auth/domain';
+import { AuthSharedService } from '../../shared/auth-shared.service';
 
 @Injectable()
 export class ConfirmUserAccountUseCase {
   constructor(
     private readonly confirmToken: UserConfirmationTokenRepository,
+    private readonly shared: AuthSharedService,
     private readonly user: UserRepository,
   ) {}
 
@@ -26,7 +29,15 @@ export class ConfirmUserAccountUseCase {
     )
       throw new InvalidTokenException();
 
+    const user = await this.user.findById(tokenInDatabase.userId);
+    if (!user) throw new UserNotFoundException();
+
     await this.confirmToken.useToken(tokenInDatabase.id);
-    await this.user.confirmEmail(tokenInDatabase.userId);
+    await this.user.confirmEmail(user.id);
+
+    this.shared.sendWelcomeEmail(user).catch((error) => {
+      // Should be logged
+      console.error('Error sending confirmation email:', error);
+    });
   }
 }
