@@ -72,7 +72,7 @@ export class AuthSharedService {
         expires: sessionTokens.expiration,
       });
 
-    await this.createLoginAttemp(req, user.email, true);
+    await this.createLoginAttemp(req, user.email, user.id, true);
   }
 
   generateAccessToken(user: UserEntity) {
@@ -101,10 +101,12 @@ export class AuthSharedService {
   async createLoginAttemp(
     req: FastifyRequest,
     userIdentificator?: string,
+    userId?: number,
     success = false,
   ) {
     await this.loginAttempts.create(
       UserLoginAttempsEntity.create({
+        userId: userId,
         userIdentificator,
         ipAddress: req.ip,
         deviceInfo: req.headers['user-agent'] || '',
@@ -123,20 +125,15 @@ export class AuthSharedService {
     return posibleUsername;
   }
 
-  sendWelcomeEmail(user: UserEntity) {
-    this.mailer
-      .sendEmail({
-        email: user.email,
-        subject: `Confirm your account on ${this.config.serviceName}`,
-        template: 'account-confirmation',
-        context: {
-          userName: user.username,
-          serviceName: this.config.serviceName,
-        },
-      })
-      .catch((error) => {
-        // Should be logged
-        console.error('Error sending confirmation email:', error);
-      });
+  async sendWelcomeEmail(user: UserEntity) {
+    await this.mailer.sendEmail({
+      email: user.email,
+      subject: `Confirm your account on ${this.config.serviceName}`,
+      template: 'account-created',
+      context: {
+        userName: user.username,
+        serviceName: this.config.serviceName,
+      },
+    });
   }
 }

@@ -51,7 +51,11 @@ export class UserLoginUseCase {
 
       if (!isPasswordMatch) throw new UserInvalidCredentialsException();
     } catch (error) {
-      await this.shared.createLoginAttemp(req, data.username || data.email);
+      await this.shared.createLoginAttemp(
+        req,
+        data.username || data.email,
+        user ? user.id : undefined,
+      );
       throw error;
     }
 

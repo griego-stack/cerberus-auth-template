@@ -58,39 +58,40 @@ export class GoogleSocialLoginUseCase {
     const user = await this.user.findByEmail(userInfo.email);
 
     if (!user) {
-      const newUserCreated = await this.user.create(
-        UserEntity.create({
-          username: await this.shared.generateUsername(userInfo.email),
-          email: userInfo.email,
-          providerId: this.config.googleProviderId,
-          roleId: this.config.defaultRoleId,
-        }),
-      );
+      const newUser = UserEntity.create({
+        username: await this.shared.generateUsername(userInfo.email),
+        email: userInfo.email,
+        providerId: this.config.googleProviderId,
+        roleId: this.config.defaultRoleId,
+      });
+      newUser.isEmailVerified = true;
+
+      const newUserCreated = await this.user.create(newUser);
 
       await this.profile.create(
         UserProfileEntity.create({
-          firstname: userInfo.given_name || '',
-          lastname: userInfo.family_name || '',
+          firstname: userInfo.given_name,
+          lastname: userInfo.family_name,
           user_id: newUserCreated.id,
         }),
       );
 
-      this.shared.sendWelcomeEmail(newUserCreated);
+      await this.shared.sendWelcomeEmail(newUserCreated);
 
       await this.shared.generateSessionTokens(req, res, newUserCreated);
-      res.redirect(data.metadata.redirectUrl).send();
+      res.redirect(data.metadata.redirectUrl, 302);
       return;
     }
 
     if (user.providerId !== this.config.googleProviderId) {
       res.redirect(
-        `${data.metadata.redirectErrorUrl}?error=provider_error&provider=google`,
+        `${data.metadata.redirectErrorUrl}?error=provider_error`,
+        302,
       );
-      res.status(409).send();
       return;
     } else {
       await this.shared.generateSessionTokens(req, res, user);
-      res.redirect(data.metadata.redirectUrl).send();
+      res.redirect(data.metadata.redirectUrl, 302);
     }
   }
 

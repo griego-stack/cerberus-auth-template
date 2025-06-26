@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BaseEntity,
-  OneToOne,
+  ManyToOne,
   JoinColumn,
 } from 'typeorm';
 import { Role } from './role.entity';
@@ -25,12 +25,12 @@ export class User extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   password: string;
 
-  @OneToOne(() => Provider)
-  @JoinColumn()
+  @ManyToOne(() => Provider)
+  @JoinColumn({ name: 'provider_id' })
   provider: Provider;
 
-  @OneToOne(() => Role)
-  @JoinColumn()
+  @ManyToOne(() => Role)
+  @JoinColumn({ name: 'role_id' })
   role: Role;
 
   @Column({ type: 'boolean', default: true })

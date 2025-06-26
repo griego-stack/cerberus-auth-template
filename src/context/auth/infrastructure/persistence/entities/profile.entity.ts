@@ -17,10 +17,10 @@ export class UserProfile extends BaseEntity {
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  @Column({ type: 'varchar', length: 50, unique: true })
+  @Column({ type: 'varchar', length: 50, nullable: true })
   firstname: string;
 
-  @Column({ type: 'varchar', length: 50, unique: true })
+  @Column({ type: 'varchar', length: 50, nullable: true })
   lastname: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })

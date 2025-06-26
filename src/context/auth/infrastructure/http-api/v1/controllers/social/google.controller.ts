@@ -8,7 +8,7 @@ export class GoogleSocialLoginController {
   constructor(private readonly google: GoogleSocialLoginUseCase) {}
 
   @Get()
-  async run(
+  run(
     @Req() req: FastifyRequest,
     @Res() res: FastifyReply,
     @Query('code') code: string,

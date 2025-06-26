@@ -35,6 +35,9 @@ export class ConfirmUserAccountUseCase {
     await this.confirmToken.useToken(tokenInDatabase.id);
     await this.user.confirmEmail(user.id);
 
-    this.shared.sendWelcomeEmail(user);
+    this.shared.sendWelcomeEmail(user).catch((error) => {
+      // Should be logged
+      console.error('Error sending confirmation email:', error);
+    });
   }
 }
