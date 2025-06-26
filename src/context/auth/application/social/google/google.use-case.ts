@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { JwtService } from '@nestjs/jwt';
-import { Injectable } from 'src/bootstrap';
+import { BadRequestException, Injectable } from 'src/bootstrap';
 import { AppConfigService } from 'src/global/services/app-config.service';
 import {
   InvalidUserLoginException,
@@ -9,9 +9,9 @@ import {
   UserProfileEntity,
   UserProfileRepository,
   UserRepository,
-} from '../../domain';
+} from '../../../domain';
 import { GoogleSocialLoginDTO } from './google.dto';
-import { AuthSharedService } from '../shared/auth-shared.service';
+import { AuthSharedService } from '../../shared/auth-shared.service';
 
 interface GoogleUserCredentials {
   access_token: string;
@@ -53,6 +53,13 @@ export class GoogleSocialLoginUseCase {
     res: FastifyReply,
     data: GoogleSocialLoginDTO,
   ) {
+    if (
+      !data.code ||
+      !data.metadata.redirectUrl ||
+      !data.metadata.redirectErrorUrl
+    )
+      throw new BadRequestException();
+
     const userInfo = await this._getUserinfo(data.code);
 
     const user = await this.user.findByEmail(userInfo.email);
@@ -80,15 +87,11 @@ export class GoogleSocialLoginUseCase {
 
       await this.shared.generateSessionTokens(req, res, newUserCreated);
       res.redirect(data.metadata.redirectUrl, 302);
-      return;
-    }
-
-    if (user.providerId !== this.config.googleProviderId) {
+    } else if (user.providerId !== this.config.googleProviderId) {
       res.redirect(
         `${data.metadata.redirectErrorUrl}?error=provider_error`,
         302,
       );
-      return;
     } else {
       await this.shared.generateSessionTokens(req, res, user);
       res.redirect(data.metadata.redirectUrl, 302);

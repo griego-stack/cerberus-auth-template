@@ -8,4 +8,5 @@ export * from './v1/controllers/password/request-change/request-change.controlle
 export * from './v1/controllers/session/login/login.controller';
 export * from './v1/controllers/session/logout/logout.controller';
 export * from './v1/controllers/session/refresh-token/refresh-token.controller';
-export * from './v1/controllers/social/google.controller';
+export * from './v1/controllers/social/github/github.controller';
+export * from './v1/controllers/social/google/google.controller';

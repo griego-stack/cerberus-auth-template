@@ -113,6 +113,14 @@ export class AppConfigService {
     return this.config.get<string>('GOOGLE_CLIENT_SECRET') || '';
   }
 
+  get githubClientID(): string {
+    return this.config.get<string>('GITHUB_CLIENT_ID') || '';
+  }
+
+  get githubClientSecret(): string {
+    return this.config.get<string>('GITHUB_CLIENT_SECRET') || '';
+  }
+
   // Database Configuration
 
   get mainDatabase(): {
